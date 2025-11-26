@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String   @unique
+  password  String
+  rol       String?  // opcional
+  creadoEn  DateTime @default(now())
+}
+
+model Carrera {
+  id          Int         @id @default(autoincrement())
+  nombre      String      @unique
+  maestros    Maestro[]
+  estudiantes Estudiante[]
+  materias    Materia[]
+}
+
+model Especialidad {
+  id       Int      @id @default(autoincrement())
+  nombre   String   @unique
+  maestros Maestro[]
+}
+
+model Maestro {
+  id             Int          @id @default(autoincrement())
+  nombre         String
+  apellido       String
+  especialidadId Int
+  especialidad   Especialidad @relation(fields: [especialidadId], references: [id])
+  carreraId      Int
+  carrera        Carrera      @relation(fields: [carreraId], references: [id])
+}
+
+model Estudiante {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String   @unique
+  carreraId Int
+  carrera   Carrera  @relation(fields: [carreraId], references: [id])
+}
+
+model Materia {
+  id        Int     @id @default(autoincrement())
+  nombre    String
+  carreraId Int
+  carrera   Carrera @relation(fields: [carreraId], references: [id])
+}
+
+model Ciclo {
+  id     Int    @id @default(autoincrement())
+  nombre String
+}
