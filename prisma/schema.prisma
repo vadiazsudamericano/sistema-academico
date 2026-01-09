@@ -4,58 +4,47 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-model Usuario {
-  id        Int      @id @default(autoincrement())
-  nombre    String
-  email     String   @unique
-  password  String
-  rol       String?  // opcional
-  creadoEn  DateTime @default(now())
 }
 
 model Carrera {
-  id          Int         @id @default(autoincrement())
-  nombre      String      @unique
-  maestros    Maestro[]
+  id          Int          @id @default(autoincrement())
+  nombre      String
   estudiantes Estudiante[]
-  materias    Materia[]
-}
-
-model Especialidad {
-  id       Int      @id @default(autoincrement())
-  nombre   String   @unique
-  maestros Maestro[]
-}
-
-model Maestro {
-  id             Int          @id @default(autoincrement())
-  nombre         String
-  apellido       String
-  especialidadId Int
-  especialidad   Especialidad @relation(fields: [especialidadId], references: [id])
-  carreraId      Int
-  carrera        Carrera      @relation(fields: [carreraId], references: [id])
+  maestros    Maestro[]    // Relación añadida para que funcione el include
 }
 
 model Estudiante {
-  id        Int      @id @default(autoincrement())
-  nombre    String
-  email     String   @unique
-  carreraId Int
-  carrera   Carrera  @relation(fields: [carreraId], references: [id])
-}
-
-model Materia {
   id        Int     @id @default(autoincrement())
   nombre    String
   carreraId Int
   carrera   Carrera @relation(fields: [carreraId], references: [id])
 }
 
+model Maestro {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  carreraId Int?     // Campo opcional para la relación
+  carrera   Carrera? @relation(fields: [carreraId], references: [id])
+}
+
+model Usuario {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  email    String @unique // Añadido para coincidir con tu DTO
+  password String
+}
+
 model Ciclo {
+  id     Int    @id @default(autoincrement())
+  nombre String
+}
+
+model Materia {
+  id     Int    @id @default(autoincrement())
+  nombre String
+}
+
+model Especialidad {
   id     Int    @id @default(autoincrement())
   nombre String
 }
