@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateEspecialidadDto } from './dto/create-especialidade.dto';
-import { UpdateEspecialidadDto } from './dto/update-especialidade.dto';
+// CAMBIO: Importar el servicio académico en lugar del PrismaService general
+import { PrismaAcademicoService } from '../prisma/prisma-academico.service';
 
 @Injectable()
 export class EspecialidadesService {
-  constructor(private prisma: PrismaService) {}
+  // CAMBIO: Inyectar PrismaAcademicoService
+  constructor(private prisma: PrismaAcademicoService) {}
 
-  create(data: CreateEspecialidadDto) {
+  create(data: any) {
     return this.prisma.especialidad.create({ data });
   }
 
@@ -19,7 +19,7 @@ export class EspecialidadesService {
     return this.prisma.especialidad.findUnique({ where: { id } });
   }
 
-  update(id: number, data: UpdateEspecialidadDto) {
+  update(id: number, data: any) {
     return this.prisma.especialidad.update({ where: { id }, data });
   }
 

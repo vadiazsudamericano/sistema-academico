@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common'; // <-- Importar UseGuards
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Query } from '@nestjs/common'; // <-- Importar UseGuards
 import { AuthGuard } from '@nestjs/passport'; // <-- Importar AuthGuard
 import { MaestrosService } from './maestros.service';
 import { CreateMaestroDto } from './dto/create-maestro.dto';
@@ -42,5 +42,11 @@ export class MaestrosController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.maestrosService.remove(+id);
+  }
+  @Get('filtro-avanzado')
+  // Usamos @Query para recibir el dato desde la URL (ej: /maestros/filtro-avanzado?tipo=COMPLETO)
+  buscarFiltroEspecial(@Query('tipo') tipo: string) { 
+    // Ahora sí le pasamos el argumento 'tipo' que el servicio pide
+    return this.maestrosService.buscarFiltroEspecial(tipo); 
   }
 }

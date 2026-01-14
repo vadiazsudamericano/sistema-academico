@@ -1,45 +1,45 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards } from '@nestjs/common'; // <-- Importar UseGuards
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Get, Post, Body, Put, Param, Delete, Query } from '@nestjs/common';
 import { EstudiantesService } from './estudiantes.service';
-import { CreateEstudianteDto } from './dto/create-estudiante.dto';
-import { UpdateEstudianteDto } from './dto/update-estudiante.dto';
-
-
-const JwtAuthGuard = AuthGuard('jwt');
 
 @Controller('estudiantes')
 export class EstudiantesController {
   constructor(private readonly estudiantesService: EstudiantesService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() data: CreateEstudianteDto) {
-    return this.estudiantesService.create(data);
+  create(@Body() createDto: any) {
+    return this.estudiantesService.create(createDto);
   }
 
-
-  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.estudiantesService.findAll();
   }
 
-  
-  @UseGuards(JwtAuthGuard)
+  @Get('activos')
+  findActivos() {
+    return this.estudiantesService.findActivos(); // Este método debe estar en el Service
+  }
+
+  @Get('buscar')
+  buscarAvanzado(@Query() query: any) {
+    return this.estudiantesService.buscarAvanzado(query); // Agregamos query como argumento
+  }
+
+  @Get('reporte-materias')
+  getReporte() {
+    return this.estudiantesService.getReporteMaterias();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.estudiantesService.findOne(+id);
   }
 
-
-  @UseGuards(JwtAuthGuard)
   @Put(':id')
-  update(@Param('id') id: string, @Body() data: UpdateEstudianteDto) {
-    return this.estudiantesService.update(+id, data);
+  update(@Param('id') id: string, @Body() updateDto: any) {
+    return this.estudiantesService.update(+id, updateDto);
   }
 
-
-  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.estudiantesService.remove(+id);

@@ -7,30 +7,14 @@ datasource db {
 }
 
 model Carrera {
-  id          Int          @id @default(autoincrement())
-  nombre      String
-  estudiantes Estudiante[]
-  maestros    Maestro[]    // Relación añadida para que funcione el include
-}
-
-model Estudiante {
-  id        Int     @id @default(autoincrement())
-  nombre    String
-  carreraId Int
-  carrera   Carrera @relation(fields: [carreraId], references: [id])
-}
-
-model Maestro {
-  id        Int      @id @default(autoincrement())
-  nombre    String
-  carreraId Int?     // Campo opcional para la relación
-  carrera   Carrera? @relation(fields: [carreraId], references: [id])
+  id     Int    @id @default(autoincrement())
+  nombre String
 }
 
 model Usuario {
   id       Int    @id @default(autoincrement())
   username String @unique
-  email    String @unique // Añadido para coincidir con tu DTO
+  email    String @unique
   password String
 }
 
@@ -39,12 +23,10 @@ model Ciclo {
   nombre String
 }
 
-model Materia {
-  id     Int    @id @default(autoincrement())
-  nombre String
-}
-
-model Especialidad {
-  id     Int    @id @default(autoincrement())
-  nombre String
+model Matricula {
+  id               Int      @id @default(autoincrement())
+  estudianteId     Int
+  materiaId        Int
+  periodoAcademico String
+  fecha            DateTime @default(now())
 }

@@ -13,9 +13,10 @@ import { MateriasModule } from './materias/materias.module';
 import { CiclosModule } from './ciclos/ciclos.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
+import { MatriculasModule } from './matriculas/matriculas.module';
 
 @Module({
-  imports: [PrismaModule, CarrerasModule, UsuariosModule, EstudiantesModule, MaestrosModule, EspecialidadesModule, MateriasModule, CiclosModule, AuthModule],
+  imports: [PrismaModule, CarrerasModule, UsuariosModule, EstudiantesModule, MaestrosModule, EspecialidadesModule, MateriasModule, CiclosModule, AuthModule, MatriculasModule],
   controllers: [AppController, UsuariosController],
   providers: [AppService, UsuariosService, PrismaService],
 })

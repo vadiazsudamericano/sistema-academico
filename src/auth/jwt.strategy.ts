@@ -16,10 +16,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private authService: AuthService
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: false,
-      secretOrKey: configService.get<string>('JWT_SECRET')!, 
-    });
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  ignoreExpiration: false,
+  secretOrKey: configService.get<string>('JWT_SECRET') || 'clavesegurajwt', 
+});
   }
 
   async validate(payload: JwtPayload) {

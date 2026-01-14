@@ -7,9 +7,13 @@ import { UpdateCarreraDto } from './dto/update-carrera.dto';
 export class CarrerasService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: CreateCarreraDto) {
-    return this.prisma.carrera.create({ data });
-  }
+  create(data: any) {
+  return this.prisma.carrera.create({
+    data: {
+      nombre: data.nombre
+    }
+  });
+}
 
   findAll() {
     return this.prisma.carrera.findMany();
