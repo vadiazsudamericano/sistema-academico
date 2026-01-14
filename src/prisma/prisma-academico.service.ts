@@ -7,13 +7,22 @@ import { Pool } from 'pg';
 export class PrismaAcademicoService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   constructor() {
     const pool = new Pool({ 
-      connectionString: "postgresql://postgres:090306@localhost:5432/academico_db?schema=public" 
+      connectionString: process.env.ACADEMICO_DATABASE_URL 
     });
-    super({ adapter: new PrismaPg(pool) } as any);
+    
+    const adapter = new PrismaPg(pool);
+    super({ adapter });
   }
 
   async onModuleInit() {
-    await this.$connect();
+    try {
+      await this.$connect();
+      console.log('🚀 [Prisma] Conexión establecida con ACADEMICO_DATABASE_URL');
+    } catch (error: unknown) {
+      // Solución al error de TS: Validamos si es una instancia de Error
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+      console.error('❌ [Prisma] Error conectando a la base de datos Académico:', errorMessage);
+    }
   }
 
   async onModuleDestroy() {

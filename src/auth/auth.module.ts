@@ -7,23 +7,22 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 // Importaciones locales
 import { JwtStrategy } from './jwt.strategy'; 
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
   imports: [
-    // 🚀 CORRECCIÓN: Importamos ConfigModule para que JwtStrategy pueda acceder a ConfigService.
     ConfigModule, 
-    
+    PrismaModule, 
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule], 
-      
       useFactory: async (configService: ConfigService): Promise<JwtModuleOptions> => {
-        const expiresInValue: string | undefined = configService.get<string>('JWT_EXPIRES_IN');
+        const expiresInValue = configService.get<string>('JWT_EXPIRES_IN');
 
         return {
-          secret: configService.get<string>('JWT_SECRET')!, 
+          secret: configService.get<string>('JWT_SECRET') || 'clavesegurajwt', 
           signOptions: { 
-            expiresIn: (expiresInValue || '60s') as any, 
+            expiresIn: (expiresInValue || '1h') as any,
           },
         };
       },

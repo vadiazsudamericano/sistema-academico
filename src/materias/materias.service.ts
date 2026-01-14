@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-// 1. IMPORTANTE: Usar el servicio de la base de datos académica
 import { PrismaAcademicoService } from '../prisma/prisma-academico.service'; 
 import { CreateMateriaDto } from './dto/create-materia.dto';
 import { UpdateMateriaDto } from './dto/update-materia.dto';
 
 @Injectable()
 export class MateriasService {
-  // 2. Inyectar el servicio correcto en el constructor
+  
   constructor(private prisma: PrismaAcademicoService) {}
 
   async create(data: CreateMateriaDto) {
