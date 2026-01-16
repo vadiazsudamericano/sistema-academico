@@ -12,5 +12,5 @@ model Estudiante {
   nombre    String
   email     String   @unique
   estado    String   @default("ACTIVO")
-  carreraId Int?    
+  carreraId Int?     
 }

@@ -7,7 +7,14 @@ import { Pool } from 'pg';
 export class PrismaEstudiantesService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   constructor() {
     const pool = new Pool({ 
-      connectionString: process.env.ESTUDIANTES_DATABASE_URL 
+      user: 'postgres',
+      host: 'localhost',
+      database: 'estudiantes_db',
+      password: '090306',
+      port: 5432,
+      max: 10,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 2000,
     });
     
     const adapter = new PrismaPg(pool);
@@ -17,10 +24,9 @@ export class PrismaEstudiantesService extends PrismaClient implements OnModuleIn
   async onModuleInit() {
     try {
       await this.$connect();
-      console.log('🚀 [Prisma] Conexión establecida con ESTUDIANTES_DATABASE_URL');
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Error desconocido';
-      console.error('❌ [Prisma] Error en BD Estudiantes:', message);
+      console.log('🚀 [Prisma] Conexión establecida con ESTUDIANTES');
+    } catch (error: any) {
+      console.error('❌ [Prisma] Error en Estudiantes:', error.message);
     }
   }
 

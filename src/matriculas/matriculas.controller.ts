@@ -1,20 +1,21 @@
-import { Controller, Post, Body, UseGuards, Get} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { MatriculasService } from './matriculas.service';
 import { CreateMatriculaDto } from './dto/create-matricula.dto';
-import { AuthGuard } from '@nestjs/passport';
+// Si tienes implementado JWT, descomenta la siguiente línea:
+// import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('matriculas')
 export class MatriculasController {
   constructor(private readonly matriculasService: MatriculasService) {}
 
   @Post()
-  async matricular(@Body() data: any) {
-    // Ahora este nombre coincide con el del Service
-    return this.matriculasService.matricular(data);
+
+  async matricular(@Body() createMatriculaDto: CreateMatriculaDto) {
+    return await this.matriculasService.matricular(createMatriculaDto);
   }
 
   @Get()
-  findAll() {
-    return this.matriculasService.findAll();
+  async findAll() {
+    return await this.matriculasService.findAll();
   }
 }

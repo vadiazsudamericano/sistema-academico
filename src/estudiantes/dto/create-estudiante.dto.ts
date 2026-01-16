@@ -1,6 +1,6 @@
 // src/estudiantes/dto/create-estudiante.dto.ts
 
-import { IsNotEmpty, IsEmail } from "class-validator";
+import { IsNotEmpty, IsEmail, IsString, IsOptional } from "class-validator";
 
     
 export class CreateEstudianteDto {
@@ -12,4 +12,8 @@ export class CreateEstudianteDto {
 
   @IsNotEmpty()
   carreraId!: number;
+
+  @IsOptional()
+  @IsString()
+  estado?: string;
 }

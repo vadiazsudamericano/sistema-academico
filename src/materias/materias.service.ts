@@ -7,10 +7,18 @@ import { UpdateMateriaDto } from './dto/update-materia.dto';
 export class MateriasService {
   
   constructor(private prisma: PrismaAcademicoService) {}
+// src/materias/materias.service.ts
 
-  async create(data: CreateMateriaDto) {
-    return this.prisma.materia.create({ data });
-  }
+async create(data: CreateMateriaDto) {
+  return this.prisma.materia.create({
+    data: {
+      nombre: data.nombre,
+      cupos: data.cupos ?? 30, 
+      carreraId: data.carreraId,
+      maestroId: data.maestroId,
+    }
+  });
+}
 
   async findAll() {
     return this.prisma.materia.findMany();
@@ -28,9 +36,9 @@ export class MateriasService {
     return this.prisma.materia.delete({ where: { id } });
   }
 
-  // 3. AGREGAR MÉTODO: Este es el que faltaba y causaba el error en el controller
+  
   async matricular(id: number, data: any) {
-    // Aquí podrías agregar lógica para verificar cupos antes de retornar
+    
     return {
       message: `Registro de intención de matrícula exitoso para materia ID: ${id}`,
       materiaId: id,

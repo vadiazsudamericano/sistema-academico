@@ -7,8 +7,13 @@ export class CreateMatriculaDto {
 
   @IsNumber()
   @IsNotEmpty()
-  materiaId!: number;   
+  materiaId!: number;
   @IsString()
   @IsNotEmpty()
-  periodoAcademico!: string; // Ejemplo: "2024-I"
+  periodoAcademico!: string;
+
+  // AGREGA ESTA LÍNEA:
+  @IsNumber()
+  @IsNotEmpty()
+  cicloId!: number; 
 }

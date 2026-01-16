@@ -1,15 +1,13 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, ParseIntPipe } from '@nestjs/common';
 import { CarrerasService } from './carreras.service';
-import { CreateCarreraDto } from './dto/create-carrera.dto';
-import { UpdateCarreraDto } from './dto/update-carrera.dto';
 
-@Controller('carreras') // ruta base en plural
+@Controller('carreras')
 export class CarrerasController {
   constructor(private readonly carrerasService: CarrerasService) {}
 
-  @Post()
-  create(@Body() data: CreateCarreraDto) {
-    return this.carrerasService.create(data);
+  @Get('reporte-materias')
+  async obtenerReporte() {
+    return this.carrerasService.getReporteMaterias();
   }
 
   @Get()
@@ -18,17 +16,22 @@ export class CarrerasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.carrerasService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.carrerasService.findOne(id);
+  }
+
+  @Post()
+  create(@Body() data: any) {
+    return this.carrerasService.create(data);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() data: UpdateCarreraDto) {
-    return this.carrerasService.update(+id, data);
+  update(@Param('id', ParseIntPipe) id: number, @Body() data: any) {
+    return this.carrerasService.update(id, data);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.carrerasService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.carrerasService.remove(id);
   }
 }

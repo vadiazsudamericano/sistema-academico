@@ -12,8 +12,10 @@ model Maestro {
   nombre       String
   apellido     String   @default("")
   tipoContrato String   @default("TIEMPO COMPLETO")
-  estaActivo   Boolean  @default(true)
   carreraId    Int?
+  estado       String   @default("ACTIVO")    
+  salario      Float    @default(0)           
+  especialidad String?
 }
 
 model Materia {

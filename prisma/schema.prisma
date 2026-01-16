@@ -16,11 +16,13 @@ model Usuario {
   username String @unique
   email    String @unique
   password String
+  role     String
 }
 
 model Ciclo {
-  id     Int    @id @default(autoincrement())
-  nombre String
+  id          Int         @id @default(autoincrement())
+  nombre      String
+  matriculas  Matricula[] 
 }
 
 model Matricula {
@@ -29,4 +31,6 @@ model Matricula {
   materiaId        Int
   periodoAcademico String
   fecha            DateTime @default(now())
+  cicloId          Int
+  ciclo            Ciclo    @relation(fields: [cicloId], references: [id])
 }

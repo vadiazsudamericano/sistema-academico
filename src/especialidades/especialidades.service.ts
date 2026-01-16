@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-// CAMBIO: Importar el servicio académico en lugar del PrismaService general
+
 import { PrismaAcademicoService } from '../prisma/prisma-academico.service';
 
 @Injectable()
 export class EspecialidadesService {
-  // CAMBIO: Inyectar PrismaAcademicoService
+  
   constructor(private prisma: PrismaAcademicoService) {}
 
   create(data: any) {

@@ -17,18 +17,14 @@ export class EstudiantesController {
 
   @Get('activos')
   findActivos() {
-    return this.estudiantesService.findActivos(); // Este método debe estar en el Service
+    return this.estudiantesService.findActivos(); 
   }
 
   @Get('buscar')
   buscarAvanzado(@Query() query: any) {
-    return this.estudiantesService.buscarAvanzado(query); // Agregamos query como argumento
+    return this.estudiantesService.buscarAvanzado(query); 
   }
 
-  @Get('reporte-materias')
-  getReporte() {
-    return this.estudiantesService.getReporteMaterias();
-  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
