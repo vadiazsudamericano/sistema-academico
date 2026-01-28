@@ -8,7 +8,46 @@ export class EstudiantesService {
     private prisma: PrismaEstudiantesService,       
     private academicoPrisma: PrismaAcademicoService, 
   ) {} 
+// PARTE 1: Listar estudiantes activos junto con su carrera
+  async findActivosConCarrera() {
+    const estudiantes = await this.prisma.estudiante.findMany({ 
+      where: { estado: 'ACTIVO' } 
+    });
 
+    return Promise.all(
+      estudiantes.map(async (est) => {
+        const carrera = est.carreraId 
+          ? await this.academicoPrisma.carrera.findUnique({ where: { id: est.carreraId } })
+          : null;
+        return { ...est, carrera };
+      })
+    );
+  }
+
+  async buscarLogico(carreraId: number) {
+  return this.prisma.estudiante.findMany({
+    where: {
+      AND: [
+        { estado: 'ACTIVO' },
+        { carreraId: Number(carreraId) }
+      ]
+    }
+  });
+}
+
+  // PARTE 3: Consulta SQL Nativa - Reporte de materias matriculadas
+  async getReporteNativo() {
+    return this.prisma.$queryRaw`
+      SELECT 
+        e.nombre AS "nombreEstudiante",
+        e.email,
+        COUNT(m.id) AS "totalMaterias"
+      FROM "Estudiante" e
+      LEFT JOIN "Matricula" m ON e.id = m."estudianteId"
+      GROUP BY e.id, e.nombre, e.email
+      ORDER BY "totalMaterias" DESC
+    `;
+  }
   async findAll() {
     return this.prisma.estudiante.findMany();
   }
@@ -23,12 +62,7 @@ export class EstudiantesService {
 
   async create(data: any) {
     return this.prisma.estudiante.create({
-      data: {
-        nombre: data.nombre,
-        email: data.email,
-        carreraId: data.carreraId ? Number(data.carreraId) : null,
-        estado: 'ACTIVO',
-      },
+      data,
     });
   }
 

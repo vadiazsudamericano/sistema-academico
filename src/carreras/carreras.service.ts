@@ -23,10 +23,7 @@ export class CarrerasService {
 
   async create(data: any) {
     return this.prisma.carrera.create({
-      data: {
-        nombre: data.nombre,
-        // Eliminamos 'descripcion' porque no existe en tu esquema de base de datos
-      },
+      data,
     });
   }
 
