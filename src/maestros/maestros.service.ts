@@ -25,8 +25,7 @@ export class MaestrosService {
     return this.prisma.maestro.delete({ where: { id: Number(id) } }); 
   }
 
-  // PARTE 1: Listar docentes que imparten más de una asignatura
-  // Corregido para contar materias de forma externa y evitar errores de esquema
+  
   async findDocentesCargados() {
     const maestros = await this.prisma.maestro.findMany();
     const resultados = await Promise.all(
@@ -41,9 +40,9 @@ export class MaestrosService {
   }
 
   // PARTE 2: Operaciones Lógicas (AND, OR, NOT)
-  // Filtra por contrato, dictado de materias (externo) y estado
+
   async filtroAvanzadoLogico() {
-    // Primero obtenemos los maestros que cumplen con el contrato y el estado
+    
     const maestros = await this.prisma.maestro.findMany({
       where: {
         AND: [
@@ -58,7 +57,6 @@ export class MaestrosService {
       }
     });
 
-    // Filtramos manualmente los que dictan asignaturas si no hay relación en Prisma
     const conMaterias = await Promise.all(
       maestros.map(async (m) => {
         const tieneMaterias = await this.prisma.materia.count({ where: { maestroId: m.id } });
@@ -69,7 +67,7 @@ export class MaestrosService {
     return conMaterias.filter(m => m !== null);
   }
 
-  // PARTE 2: Consulta que utiliza operadores lógicos solicitada en el punto 3
+  
   async buscarFiltroEspecial(query: any) {
     return this.prisma.maestro.findMany({
       where: {

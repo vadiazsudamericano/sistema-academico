@@ -9,5 +9,6 @@ import { PrismaAcademicoService } from '../prisma/prisma-academico.service';
     MateriasService, 
     PrismaAcademicoService 
   ],
+  exports: [MateriasService]
 })
 export class MateriasModule {}

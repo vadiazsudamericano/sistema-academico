@@ -8,7 +8,7 @@ export class EstudiantesService {
     private prisma: PrismaEstudiantesService,       
     private academicoPrisma: PrismaAcademicoService, 
   ) {} 
-// PARTE 1: Listar estudiantes activos junto con su carrera
+
   async findActivosConCarrera() {
     const estudiantes = await this.prisma.estudiante.findMany({ 
       where: { estado: 'ACTIVO' } 

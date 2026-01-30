@@ -31,13 +31,4 @@ export class MateriasController {
   remove(@Param('id') id: string) {
     return this.materiasService.remove(+id);
   }
-
-  
- @Post(':id/matricular')
-async matricular(@Param('id') id: string, @Body() data: any) {
-  return this.materiasService.realizarMatricula(
-    Number(data.estudianteId),
-    Number(id),
-    Number(data.cicloId),
-  );
-}}
+}
